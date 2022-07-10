@@ -1,3 +1,6 @@
+const tbody=document.getElementById('tbody');
+tbody.innerHTML=localStorage.getItem('book-data')
+bookdata=``
 function deletes(d) {
     const rowindex = (d.parentNode.parentNode.rowIndex);
     const tabledel = document.getElementsByTagName('tr')[rowindex];
@@ -14,29 +17,34 @@ class book {
     }
 
 }
-
+i = 0
 class displaybook {
     constructor(book) {
         this.book = book
     }
-    addbook() {
-        const tbody = document.getElementById('tbody');
-        var i = 1
-        const data = document.createElement('tr');
 
-        data.innerHTML = `<th scope="row">1</th>
-                        <td>${this.book.bookname}</td >
-                        <td>${this.book.author}</td>
-                        <td>${this.book.category}</td>
-                        <td> <button class='btn btn-primary' onclick={deletes(this)}>Delete</button></td>`
-        i = i + 1;
-        tbody.append(data);
+    addbook() {
+        i++
+        
+        bookdata += `<tr><th scope="row">${i}</th>
+<td>${this.book.bookname}</td >
+<td>${this.book.author}</td>
+<td>${this.book.category}</td>
+<td> <button class='btn btn-primary' onclick={deletes(this)}>Delete</button></td><tr>`
+
+        tbody.innerHTML = bookdata
+
+        localStorage.setItem('book-data', bookdata)
+
+
+
+
     }
 
 }
 
 
-let libraryform = document.getElementById('library_form');
+const libraryform = document.getElementById('library_form');
 
 libraryform.addEventListener('submit', libraryformsubmit);
 
@@ -62,7 +70,7 @@ function libraryformsubmit(e) {
         const B1 = new book(bookname, author, category);
         const D1 = new displaybook(B1);
         D1.addbook();
-        alerts.innerHTML = `<div class="alert alert-danger" role="alert">Book has been added successfully</div>`
+        alerts.innerHTML = `<div class="alert alert-success" role="alert">Book has been added successfully</div>`
     }
     else {
         alerts.innerHTML = `<div class="alert alert-danger" role="alert">Try inputing all values again</div>`
